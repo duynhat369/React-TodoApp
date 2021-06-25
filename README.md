@@ -6,6 +6,8 @@
 ```
 
 ## Package using:
+  + axios
+  + query-string
   + class-names
   + node-sass
   + react-icons
