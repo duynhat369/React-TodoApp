@@ -1,6 +1,6 @@
 $color-primary: coral;
-.todo-form {
-  width: 100%;
+.todo-form-add,
+.todo-form-update {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -30,4 +30,8 @@ $color-primary: coral;
     padding: 0.5rem;
     cursor: pointer;
   }
+}
+
+.todo-form-update {
+  display: none;
 }

@@ -1,33 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import todoApi from '../../api/todoApi';
-import TodoCounter from './pages/TodoCounter';
-import TodoFormAdd from './pages/TodoFormAdd';
-import TodoFormUpdate from './pages/TodoFormUpdate';
-import TodoList from './pages/TodoList';
-import "./styles.scss"
-Todo.propTypes = {
+import TodoCounter from './components/TodoCounter';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+import "./styles.scss";
 
-};
+Todo.propTypes = {};
 
 function Todo(props) {
-  //fetch api by axios
-  useEffect(() => {
-    const fetchTodos = async () => {
-      const todos = await todoApi.getAll()
+    const [todos, setTodos] = useState([])
+
+    //fetch api by axios
+    useEffect(() => {
+        //this side effect is executed once after rendering
+        const fetchTodos = async () => {
+            const todoData = await todoApi.getAll()
+
+            setTodos(todoData)
+        }
+
+        fetchTodos()
+    }, [])
+
+    //post input form value to api
+    const handleFormSubmit = (formValues) => {
+
+        const postTodos = async () => {
+            await todoApi.add(formValues)
+            const todoData = await todoApi.getAll()
+
+            setTodos(todoData)
+        }
+
+        postTodos()
     }
 
-    fetchTodos()
-  }, [])
-
-  return (
-    <div className="todo-app">
-      <h2 className="todo-title">Plans for today</h2>
-      <TodoFormAdd />
-      <TodoCounter />
-      <TodoFormUpdate />
-      <TodoList />
-    </div>
-  );
+    //rendering
+    return (
+        <div className="todo-app">
+            <div className="todo-heading">
+                <h2 className="todo-heading__title">Plans for today</h2>
+                <span className="todo-heading__counter">
+                    <TodoCounter />
+                </span>
+            </div>
+            <TodoForm onSubmit={handleFormSubmit} />
+            <TodoList todos={todos} />
+        </div>
+    );
 }
 
 export default Todo;
