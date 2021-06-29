@@ -50,23 +50,23 @@ $color-primary: coral;
       }
     }
 
-    // & > .done {
-    //   & > .content {
-    //     opacity: 0.2;
-    //   }
-    //   & > .icons {
-    //     .icon {
-    //       cursor: default;
-    //     }
+    & > .done {
+      & > .content {
+        opacity: 0.2;
+      }
+      & > .icons {
+        .icon {
+          cursor: default;
+        }
 
-    //     .icon:nth-child(4) {
-    //       display: inline-block;
-    //       cursor: pointer;
-    //     }
-    //     .icon:not(:nth-child(4)) {
-    //       display: none;
-    //     }
-    //   }
-    // }
+        .icon:nth-child(4) {
+          display: inline-block;
+          cursor: pointer;
+        }
+        .icon:not(:nth-child(4)) {
+          display: none;
+        }
+      }
+    }
   }
 }

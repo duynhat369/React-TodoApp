@@ -8,7 +8,8 @@ $color-primary: coral;
   border: 2px solid $color-primary;
 
   margin: 1rem 0;
-  .todo-input {
+  .todo-input,
+  .todo-input-update {
     width: 100%;
 
     border: transparent;
