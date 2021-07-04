@@ -1,121 +1,77 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import "./styles.scss";
+import React, { useEffect, useState } from 'react';
+import './styles.scss';
 
 TodoForm.propTypes = {
     onSubmit: PropTypes.func,
-    valueUpdate: PropTypes.object.isRequired,
-    onUpdateSubmit: PropTypes.func,
+    initialValues: PropTypes.object
 };
 
-TodoForm.defaultProps = {
-    onSubmit: null,
-    onUpdateSubmit: null,
-}
+function TodoForm({ initialValues, onSubmit }) {
+    const [values, setValues] = useState(initialValues || {});
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState();
+    const isEdit = Boolean(initialValues?.id);
 
-function TodoForm(props) {
-    const { onSubmit, valueUpdate, onUpdateSubmit } = props
-    //initialValues Form Add
-    const [input, setInput] = useState('')
-
-    //initialValues Form Update
-    const initialValueUpdate = valueUpdate
-    const [inputUpdate, setInputUpdate] = useState(initialValueUpdate)
-    console.log("inputUpdate: ", inputUpdate)
-    console.log("valueUpdate: ", valueUpdate)
+    // support re-initialization
+    useEffect(() => {
+        console.log('Effect', initialValues);
+        setValues(initialValues || {});
+    }, [initialValues]);
 
     const handleInputChange = (e) => {
-        setInput(e.target.value)
-    }
-
-    const handleInputUpdateChange = (e) => {
-        console.log("changing...")
-        setInputUpdate({ ...valueUpdate, title: e.target.value })
-    }
+        const newTitle = e.target.value;
+        setValues((prevValues) => ({
+            ...prevValues,
+            title: newTitle
+        }));
+    };
 
     //handle submit form add todo
-    const handleFormSubmit = (e) => {
-        if (!onSubmit) return
+    const handleFormSubmit = async (e) => {
+        if (!onSubmit) return;
 
         //prevent loading browser
-        e.preventDefault()
-
-        const formValues = {
-            title: input,
-            status: "new",
-        }
+        e.preventDefault();
 
         //validate input form value
-        if (!formValues.title || /^\s*$/.test(formValues.title)) {
-            return
+        if (!values.title || /^\s*$/.test(values.title)) {
+            setError('Please enter what to do first.');
+            return;
         }
 
-        //reset input form value
-        setInput("")
-        // console.log(formValues)
-        onSubmit(formValues)
-    }
+        try {
+            setError('');
+            setLoading(true);
 
-    //handle submit form update todo
-    const handleFormUpdateSubmit = (e) => {
-        if (!onSubmit) return
-
-        //prevent loading browser
-        e.preventDefault()
-
-        const newFormValues = {
-            id: inputUpdate.id,
-            title: inputUpdate.title,
-            status: inputUpdate.status,
+            await onSubmit(values);
+        } catch (error) {
+            setError(error.message);
         }
 
-        //validate input form value
-        if (!newFormValues.title || /^\s*$/.test(newFormValues.title)) {
-            return
-        }
-
-        setInputUpdate("")
-        console.log("updated !!!")
-        onUpdateSubmit(newFormValues)
-    }
+        setLoading(false);
+    };
 
     return (
         <React.Fragment>
-            {/* form add */}
-            <form
-                className="todo-form-add"
-                onSubmit={handleFormSubmit}
-            >
+            <form className="todo-form-add" onSubmit={handleFormSubmit}>
                 <input
                     type="text"
                     name="todo-input"
                     className="todo-input"
-                    placeholder="Add a new plan to list"
-
-                    value={input}
+                    placeholder="What would you like to do next?"
+                    value={values?.title || ''}
                     onChange={handleInputChange}
+                    disabled={loading}
                 />
-                <button className="todo-button"> ADD </button>
+
+                <button className="todo-button" disabled={loading}>
+                    {loading ? 'Loading...' : ''}
+                    {!loading && (isEdit ? 'Update' : 'Add')}
+                </button>
             </form>
 
-            {/* form update */}
-            <form
-                className="todo-form-update"
-                onSubmit={handleFormUpdateSubmit}
-            >
-                <input
-                    type="text"
-                    name="todo-input-update"
-                    className="todo-input-update"
-                    placeholder="New title for plan"
-
-                    //Prop có giá trị
-                    //Còn state thì rỗng
-                    value={inputUpdate.title}
-                    onChange={handleInputUpdateChange}
-                />
-                <button className="todo-button"> UPDATE </button>
-            </form>
+            {error && <p style={{ color: 'maroon' }}>{error}</p>}
         </React.Fragment>
     );
 }
