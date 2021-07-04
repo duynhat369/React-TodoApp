@@ -7,34 +7,55 @@ import PropTypes from 'prop-types';
 
 TodoList.propTypes = {
     todos: PropTypes.array,
+    onDeleteClick: PropTypes.func,
+    onEditClick: PropTypes.func,
+    onUpdateStatus: PropTypes.func,
 };
 
 TodoList.defaultProps = {
     todos: [],
+    onDeleteClick: null,
+    onEditClick: null,
+    onUpdateStatus: null,
 }
 
 function TodoList(props) {
-    const { todos } = props
+    const { todos, onDeleteClick, onEditClick, onUpdateStatus } = props
+
+    //delete one item todo
+    const handleDeleteClick = (todo) => {
+        onDeleteClick(todo)
+    }
+
+    //edit title item todo
+    const handleEditClick = (todo) => {
+        onEditClick(todo)
+    }
+
+    //mark completed item todo
+    const handleUpdateStatus = (todo) => {
+        onUpdateStatus(todo)
+    }
 
     return (
         <div className="todo-list">
             <ul className="todo-list__items">
-                {todos.map((todo, index) => (
+                {todos.map((todo) => (
                     <li
                         key={todo.id}
                         className={classNames({
                             item: true,
-                            done: todo.status === "done"
+                            done: todo.status === "done",
                         })}
                     >
                         <p className="content">
                             {todo.title}
                         </p>
                         <div className="icons">
-                            <AiOutlineEdit className="icon" />
-                            <AiOutlineDelete className="icon" />
-                            <MdDone className="icon" />
-                            <AiOutlineRollback className="icon" />
+                            <AiOutlineEdit className="icon" onClick={() => handleEditClick(todo)} />
+                            <AiOutlineDelete className="icon" onClick={() => handleDeleteClick(todo)} />
+                            <MdDone className="icon" onClick={() => handleUpdateStatus(todo)} />
+                            <AiOutlineRollback className="icon" onClick={() => handleUpdateStatus(todo)} />
                         </div>
                     </li>
                 ))}
