@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import "./styles.scss";
 
 TodoForm.propTypes = {
-    inputUpdate: PropTypes.string.isRequired,
     onSubmit: PropTypes.func,
+    valueUpdate: PropTypes.object.isRequired,
     onUpdateSubmit: PropTypes.func,
 };
 
@@ -12,18 +12,25 @@ TodoForm.defaultProps = {
     onSubmit: null,
     onUpdateSubmit: null,
 }
-function TodoForm(props) {
-    const { inputUpdate, onSubmit, onUpdateSubmit } = props
 
+function TodoForm(props) {
+    const { onSubmit, valueUpdate, onUpdateSubmit } = props
+    //initialValues Form Add
     const [input, setInput] = useState('')
-    const [newInputUpdate, setNewInputUpdate] = useState("")
+
+    //initialValues Form Update
+    const initialValueUpdate = valueUpdate
+    const [inputUpdate, setInputUpdate] = useState(initialValueUpdate)
+    console.log("inputUpdate: ", inputUpdate)
+    console.log("valueUpdate: ", valueUpdate)
 
     const handleInputChange = (e) => {
         setInput(e.target.value)
     }
 
     const handleInputUpdateChange = (e) => {
-        setNewInputUpdate(e.target.value)
+        console.log("changing...")
+        setInputUpdate({ ...valueUpdate, title: e.target.value })
     }
 
     //handle submit form add todo
@@ -57,42 +64,54 @@ function TodoForm(props) {
         e.preventDefault()
 
         const newFormValues = {
-            title: inputUpdate,
+            id: inputUpdate.id,
+            title: inputUpdate.title,
+            status: inputUpdate.status,
         }
-        console.log("inputUpdate after: ", inputUpdate)
+
         //validate input form value
         if (!newFormValues.title || /^\s*$/.test(newFormValues.title)) {
             return
         }
-        console.log("title", newFormValues.title)
 
+        setInputUpdate("")
+        console.log("updated !!!")
         onUpdateSubmit(newFormValues)
     }
 
     return (
         <React.Fragment>
             {/* form add */}
-            <form className="todo-form-add" onSubmit={handleFormSubmit}>
+            <form
+                className="todo-form-add"
+                onSubmit={handleFormSubmit}
+            >
                 <input
                     type="text"
                     name="todo-input"
                     className="todo-input"
+                    placeholder="Add a new plan to list"
+
                     value={input}
                     onChange={handleInputChange}
-                    placeholder="Add a new plan to list"
                 />
                 <button className="todo-button"> ADD </button>
             </form>
 
             {/* form update */}
-            <form className="todo-form-update" onSubmit={handleFormUpdateSubmit}>
+            <form
+                className="todo-form-update"
+                onSubmit={handleFormUpdateSubmit}
+            >
                 <input
                     type="text"
                     name="todo-input-update"
                     className="todo-input-update"
+                    placeholder="New title for plan"
 
-                    // nếu value là prop thì không thể onChange, nếu là state thì không set value vào input
-                    value={inputUpdate}
+                    //Prop có giá trị
+                    //Còn state thì rỗng
+                    value={inputUpdate.title}
                     onChange={handleInputUpdateChange}
                 />
                 <button className="todo-button"> UPDATE </button>
