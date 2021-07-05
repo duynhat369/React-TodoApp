@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 
 TodoList.propTypes = {
     todos: PropTypes.array,
+    loading: PropTypes.bool,
     onDeleteClick: PropTypes.func,
     onEditClick: PropTypes.func,
     onUpdateStatus: PropTypes.func
@@ -18,40 +19,47 @@ TodoList.propTypes = {
 
 function TodoList({
     todos = [],
+    loading = false,
     onDeleteClick = null,
     onEditClick = null,
     onUpdateStatus = null
 }) {
     return (
         <div className="todo-list">
-            <ul className="todo-list__items">
-                {todos.map((todo) => (
-                    <li
-                        key={todo.id}
-                        className={classNames({
-                            item: true,
-                            done: todo.status === "done"
-                        })}
-                    >
-                        <p className="content">{todo.title}</p>
-                        <div className="icons">
-                            <AiOutlineEdit
-                                className="icon"
-                                onClick={() => onEditClick(todo)}
-                            />
-                            <AiOutlineDelete
-                                className="icon"
-                                onClick={() => onDeleteClick(todo)}
-                            />
-                            <MdDone className="icon" onClick={() => onUpdateStatus(todo)} />
-                            <AiOutlineRollback
-                                className="icon"
-                                onClick={() => onUpdateStatus(todo)}
-                            />
-                        </div>
-                    </li>
-                ))}
-            </ul>
+            {loading &&
+                <div class="preloader"><div></div><div></div><div></div><div></div></div>
+            }
+            {!loading &&
+                <ul className="todo-list__items">
+                    {todos.map((todo) => (
+                        <li
+                            key={todo.id}
+                            className={classNames({
+                                item: true,
+                                done: todo.status === "done",
+                            })}
+                        >
+                            <p className="content">{todo.title}</p>
+                            <div className="icons">
+                                <AiOutlineEdit
+                                    className="icon"
+                                    onClick={() => onEditClick(todo)}
+                                />
+                                <AiOutlineDelete
+                                    className="icon"
+                                    onClick={() => onDeleteClick(todo)}
+                                />
+                                <MdDone className="icon" onClick={() => onUpdateStatus(todo)} />
+                                <AiOutlineRollback
+                                    className="icon"
+                                    onClick={() => onUpdateStatus(todo)}
+                                />
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            }
+
         </div>
     );
 }

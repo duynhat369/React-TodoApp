@@ -9,6 +9,7 @@ const DEFAULT_TODO = { title: '', status: 'new' };
 
 function Todo(props) {
     const [todos, setTodos] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState(DEFAULT_TODO);
 
     //fetch api by axios
@@ -16,6 +17,7 @@ function Todo(props) {
         //this side effect is executed once after rendering
         const fetchTodos = async () => {
             try {
+                setLoading(true);
                 const todoData = await todoApi.getAll();
                 setTodos(todoData);
             } catch (error) {
@@ -23,11 +25,13 @@ function Todo(props) {
             }
         };
         fetchTodos();
+        setLoading(false);
     }, []);
 
     //[post] input form value (form add)
     const handleFormSubmit = async (formValues) => {
         try {
+            setLoading(true);
             const isEdit = Boolean(formValues?.id);
 
             if (isEdit) {
@@ -45,6 +49,8 @@ function Todo(props) {
         } catch (error) {
             console.error('Failed to submit form', error);
         }
+
+        setLoading(false);
     };
 
     //Edit item todo
@@ -55,6 +61,7 @@ function Todo(props) {
     //[patch] item todo
     const handleUpdateStatus = async (todo) => {
         try {
+            setLoading(true);
             //toggle state
             todo.status = todo.status === 'done' ? 'new' : 'done';
 
@@ -64,11 +71,14 @@ function Todo(props) {
         } catch (error) {
             console.error('Failed to toggle state', error);
         }
+
+        setLoading(false);
     };
 
     //[delete] todo form value
     const handleDeleteClick = async (todo) => {
         try {
+            setLoading(true);
             if (window.confirm('Are you sure to remove todo?')) {
                 await todoApi.remove(todo.id);
                 const todoData = await todoApi.getAll();
@@ -77,6 +87,8 @@ function Todo(props) {
         } catch (error) {
             console.error('Failed to delete todo', error);
         }
+
+        setLoading(false);
     };
 
     //rendering
@@ -84,15 +96,14 @@ function Todo(props) {
         <div className="todo-app">
             <div className="todo-heading">
                 <h2 className="todo-heading__title">Plans for today</h2>
-                <span className="todo-heading__counter">
-                    <TodoCounter todos={todos} />
-                </span>
+                <span className="todo-heading__counter"> <TodoCounter todos={todos} /> </span>
             </div>
 
             <TodoForm initialValues={selectedTodo} onSubmit={handleFormSubmit} />
 
             <TodoList
                 todos={todos}
+                loading={loading}
                 onEditClick={handleEditClick}
                 onDeleteClick={handleDeleteClick}
                 onUpdateStatus={handleUpdateStatus}
