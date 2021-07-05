@@ -1,21 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 TodoCounter.propTypes = {
-    todosLength: PropTypes.number,
+    todos: PropTypes.array
 };
 
 TodoCounter.defaultProps = {
-    todosLength: 0,
-}
+    todos: []
+};
 
 function TodoCounter(props) {
-    const { todosLength } = props
-    return (
-        <React.Fragment>
-            {todosLength}
-        </React.Fragment>
-    );
+    const { todos } = props;
+    return <React.Fragment>{todos.length}</React.Fragment>;
 }
 
 export default TodoCounter;

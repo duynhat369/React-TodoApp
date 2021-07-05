@@ -3,96 +3,81 @@ import todoApi from '../../api/todoApi';
 import TodoCounter from './components/TodoCounter';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
-import "./styles.scss";
+import './styles.scss';
 
-Todo.propTypes = {};
+const DEFAULT_TODO = { title: '', status: 'new' };
 
 function Todo(props) {
-    const [todos, setTodos] = useState([])
-    const [valueUpdate, setValueUpdate] = useState({})
-
-    //toggle class updating
-    const todoNode = document.querySelector(".todo-app")
+    const [todos, setTodos] = useState([]);
+    const [selectedTodo, setSelectedTodo] = useState(DEFAULT_TODO);
 
     //fetch api by axios
     useEffect(() => {
         //this side effect is executed once after rendering
         const fetchTodos = async () => {
             try {
-                const todoData = await todoApi.getAll()
-                setTodos(todoData)
-
+                const todoData = await todoApi.getAll();
+                setTodos(todoData);
             } catch (error) {
-                console.error("Failed to fetch data.")
+                console.error('Failed to fetch data.');
             }
-        }
-        fetchTodos()
-    }, [])
+        };
+        fetchTodos();
+    }, []);
 
-    //post input form value (form add)
+    //[post] input form value (form add)
     const handleFormSubmit = async (formValues) => {
         try {
-            await todoApi.add(formValues)
-            const todoData = await todoApi.getAll()
-            setTodos(todoData)
+            const isEdit = Boolean(formValues?.id);
+
+            if (isEdit) {
+                await todoApi.update(formValues);
+            } else {
+                await todoApi.add({
+                    ...formValues,
+                    status: 'new'
+                });
+            }
+
+            const todoData = await todoApi.getAll();
+            setTodos(todoData);
+            setSelectedTodo({ ...DEFAULT_TODO });
         } catch (error) {
-            console.error("Failed to submit form")
+            console.error('Failed to submit form', error);
         }
-    }
-
-    //patch input form value (form update)
-    const handleFormUpdateSubmit = async (newFormValues) => {
-        try {
-            todoNode.classList.toggle("updating")
-
-            await todoApi.update(newFormValues)
-            const todoData = await todoApi.getAll()
-            setTodos(todoData)
-        } catch (error) {
-            console.error("Failed to update form")
-        }
-
-    }
+    };
 
     //Edit item todo
     const handleEditClick = (todo) => {
-        try {
-            todoNode.classList.toggle("updating")
+        setSelectedTodo(todo);
+    };
 
-            // const newValue = todo.title
-            //const newTodo = { ...todo }
-            console.log("todo: ", todo)
-            setValueUpdate(todo)
-        } catch (error) {
-            console.error("Failed to edit value")
-        }
-    }
-
-    //patch item todo
+    //[patch] item todo
     const handleUpdateStatus = async (todo) => {
         try {
             //toggle state
-            todo.status = todo.status === "done" ? "new" : "done"
+            todo.status = todo.status === 'done' ? 'new' : 'done';
 
-            await todoApi.update(todo)
-            const todoData = await todoApi.getAll()
-            setTodos(todoData)
+            await todoApi.update(todo);
+            const todoData = await todoApi.getAll();
+            setTodos(todoData);
         } catch (error) {
-            console.error("Failed to toggle state")
+            console.error('Failed to toggle state', error);
         }
+    };
 
-    }
-
-    //delete todo form value
+    //[delete] todo form value
     const handleDeleteClick = async (todo) => {
         try {
-            await todoApi.remove(todo.id)
-            const todoData = await todoApi.getAll()
-            setTodos(todoData)
+            if (window.confirm('Are you sure to remove todo?')) {
+                await todoApi.remove(todo.id);
+                const todoData = await todoApi.getAll();
+                setTodos(todoData);
+            }
         } catch (error) {
-            console.error("Failed to delete todo")
+            console.error('Failed to delete todo', error);
         }
-    }
+    };
 
     //rendering
     return (
@@ -100,14 +85,12 @@ function Todo(props) {
             <div className="todo-heading">
                 <h2 className="todo-heading__title">Plans for today</h2>
                 <span className="todo-heading__counter">
-                    <TodoCounter todosLength={todos.length} />
+                    <TodoCounter todos={todos} />
                 </span>
             </div>
-            <TodoForm
-                valueUpdate={valueUpdate}
-                onSubmit={handleFormSubmit}
-                onUpdateSubmit={handleFormUpdateSubmit}
-            />
+
+            <TodoForm initialValues={selectedTodo} onSubmit={handleFormSubmit} />
+
             <TodoList
                 todos={todos}
                 onEditClick={handleEditClick}
