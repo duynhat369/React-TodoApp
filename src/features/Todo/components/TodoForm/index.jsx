@@ -15,7 +15,6 @@ function TodoForm({ initialValues, onSubmit }) {
 
     // support re-initialization
     useEffect(() => {
-        console.log('Effect', initialValues);
         setValues(initialValues || {});
     }, [initialValues]);
 

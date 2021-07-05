@@ -11,7 +11,7 @@ $color-primary: coral;
     &__title {
       display: inline-block;
 
-      margin: 1rem 0;
+      margin: 1rem 0.25rem;
       font-size: 2.5rem;
       font-weight: bold;
       text-align: center;
@@ -21,7 +21,7 @@ $color-primary: coral;
       display: inline-block;
 
       font-size: 2.5rem;
-      margin: 1rem 0.5rem;
+      margin: 1rem 0.25rem;
       font-weight: bold;
 
       color: $color-primary;
