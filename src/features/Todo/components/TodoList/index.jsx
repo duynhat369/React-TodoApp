@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import PropTypes from "prop-types";
 import React from "react";
 import {
     AiOutlineDelete,
@@ -6,8 +7,8 @@ import {
     AiOutlineRollback
 } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
+import PulseLoader from "react-spinners/PulseLoader";
 import "./styles.scss";
-import PropTypes from "prop-types";
 
 TodoList.propTypes = {
     todos: PropTypes.array,
@@ -27,7 +28,13 @@ function TodoList({
     return (
         <div className="todo-list">
             {loading &&
-                <div class="preloader"><div></div><div></div><div></div><div></div></div>
+                <div className="preloader">
+                    <PulseLoader
+                        color={'coral'}
+                        loading={loading}
+                        size={20}
+                    />
+                </div>
             }
             {!loading &&
                 <ul className="todo-list__items">

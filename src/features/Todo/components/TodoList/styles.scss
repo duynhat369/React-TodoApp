@@ -1,6 +1,8 @@
 $color-primary: coral;
 .todo-list {
   width: 100%;
+  position: relative;
+  padding: 1rem 0;
   &__items {
     display: flex;
     flex-flow: row wrap;
