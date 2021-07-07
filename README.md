@@ -10,6 +10,7 @@ Api url: https://todo-app-api-json-server.herokuapp.com/api/todos
 - class-names
 - node-sass
 - react-icons
+- react spinners
 
 ### my notes:
 
