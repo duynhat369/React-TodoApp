@@ -1,27 +1,30 @@
-$color-primary: coral;
-.todo-form-add,
-.todo-form-update {
+$primary-color: #ff7f51;
+
+.todo-form {
   display: flex;
   flex-direction: row;
   justify-content: center;
 
-  border: 2px solid $color-primary;
+  border-bottom: 2px solid $primary-color;
 
   margin: 1rem 0;
-  .todo-input,
-  .todo-input-update {
+  .todo-input {
     width: 100%;
 
+    color: $primary-color;
+    background-color: transparent;
     border: transparent;
-    border-radius: 0.25rem 0 0 0.25rem;
     outline: none;
 
     padding: 1rem;
+    &::placeholder {
+      color: $primary-color;
+    }
   }
 
   .todo-button {
-    background-color: $color-primary;
-    color: white;
+    background-color: transparent;
+    color: $primary-color;
 
     font-weight: bold;
 
@@ -31,8 +34,4 @@ $color-primary: coral;
     padding: 0.5rem;
     cursor: pointer;
   }
-}
-
-.todo-form-update {
-  display: none;
 }

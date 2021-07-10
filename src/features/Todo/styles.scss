@@ -1,4 +1,6 @@
-$color-primary: coral;
+$primary-color: #ff7f51;
+$white-color: #ffffff;
+
 .todo-app {
   .todo-heading {
     width: 100%;
@@ -10,6 +12,7 @@ $color-primary: coral;
 
     &__title {
       display: inline-block;
+      color: $white-color;
 
       margin: 1rem 0.25rem;
       font-size: 2.5rem;
@@ -24,7 +27,7 @@ $color-primary: coral;
       margin: 1rem 0.25rem;
       font-weight: bold;
 
-      color: $color-primary;
+      color: $primary-color;
     }
   }
 }

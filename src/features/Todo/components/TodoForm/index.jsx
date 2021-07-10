@@ -53,7 +53,7 @@ function TodoForm({ initialValues, onSubmit }) {
 
     return (
         <React.Fragment>
-            <form className="todo-form-add" onSubmit={handleFormSubmit}>
+            <form className="todo-form" onSubmit={handleFormSubmit}>
                 <input
                     type="text"
                     name="todo-input"
@@ -65,8 +65,7 @@ function TodoForm({ initialValues, onSubmit }) {
                 />
 
                 <button className="todo-button" disabled={loading}>
-                    {loading ? 'Loading...' : ''}
-                    {!loading && (isEdit ? 'Update' : 'Add')}
+                    {isEdit ? 'Update' : 'Add'}
                 </button>
             </form>
 
