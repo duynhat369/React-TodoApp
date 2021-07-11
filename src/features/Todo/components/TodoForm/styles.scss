@@ -14,11 +14,14 @@ $primary-color: #ff7f51;
     color: $primary-color;
     background-color: transparent;
     border: transparent;
+    font-weight: bold;
     outline: none;
 
     padding: 1rem;
     &::placeholder {
-      color: $primary-color;
+      color: currentColor;
+      font-style: italic;
+      font-weight: normal;
     }
   }
 

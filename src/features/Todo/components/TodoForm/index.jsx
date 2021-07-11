@@ -53,7 +53,11 @@ function TodoForm({ initialValues, onSubmit }) {
 
     return (
         <React.Fragment>
-            <form className="todo-form" onSubmit={handleFormSubmit} autocomplete="off">
+            <form
+                className="todo-form"
+                onSubmit={handleFormSubmit}
+                autocomplete="off"
+            >
                 <input
                     type="text"
                     name="todo-input"

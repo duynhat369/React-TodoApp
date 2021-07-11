@@ -2,10 +2,11 @@ $primary-color: #ff7f51;
 $body-color: #1d1e42;
 $background-color: #141432;
 $white-color: #ffffff;
+
 $blue-color: #5250ee;
-$blue-sky-color: #54ebff;
-$blue-opacity-color: #00a3ff;
-$red-color: #eb3f77;
+$red-color: #f55c5b;
+$gray-color: #6c6c91;
+$green-color: #02dbc6;
 
 .todo-list {
   width: 100%;
@@ -66,15 +67,15 @@ $red-color: #eb3f77;
     }
 
     & > .item:nth-child(4n + 2) {
-      background: $blue-sky-color;
+      background: $red-color;
     }
 
     & > .item:nth-child(4n + 3) {
-      background: $blue-opacity-color;
+      background: $gray-color;
     }
 
     & > .item:nth-child(4n + 4) {
-      background: $red-color;
+      background: $green-color;
     }
 
     & > .done {
