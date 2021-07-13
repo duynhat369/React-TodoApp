@@ -8,16 +8,19 @@ function App() {
 
     useEffect(() => {
         setLoading(true)
-        setTimeout(() => {
+        const loadingTimeout = setTimeout(() => {
             setLoading(false)
         }, 5000)
+
+        return () => clearTimeout(loadingTimeout)
     }, [])
+
     return (
         <React.Fragment>
             {loading &&
                 <div className="preloader">
                     <PulseLoader
-                        color={'coral'}
+                        color={'#ff7f51'}
                         loading={loading}
                         size={20}
                     />

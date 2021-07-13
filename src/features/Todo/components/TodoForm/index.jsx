@@ -56,7 +56,7 @@ function TodoForm({ initialValues, onSubmit }) {
             <form
                 className="todo-form"
                 onSubmit={handleFormSubmit}
-                autocomplete="off"
+                autoComplete="off"
             >
                 <input
                     type="text"

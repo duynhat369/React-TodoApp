@@ -3,7 +3,7 @@ import axiosClient from './axiosClient';
 const todoApi = {
     getAll(params) {
         const url = '/todos';
-        return axiosClient.get(url, { params: params }); //{params}
+        return axiosClient.get(url, { params }); //{params}
     },
 
     get(id) {
