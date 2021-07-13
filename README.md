@@ -5,12 +5,13 @@
 
 ## Package using:
 
-- axios
-- query-string
+- axios (REST APIs)
+- query-string (stringify params)
 - class-names
 - node-sass
 - react-icons
 - react spinners
+- react-bootstrap/progressBar
 
 ### my notes:
 
