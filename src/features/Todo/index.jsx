@@ -22,7 +22,6 @@ function Todo(props) {
         _page: 1,
     });
 
-
     //fetch api by axios
     useEffect(() => {
         (async () => {
@@ -35,7 +34,6 @@ function Todo(props) {
                 console.error('Failed to fetch todo list.');
             }
         })();
-        console.log(123123123)
         setLoading(false);
     }, [filters]);
 
@@ -56,7 +54,10 @@ function Todo(props) {
 
             const { data, pagination } = await todoApi.getAll(filters);
             setTodos(data)
-            setPagination(pagination)
+            setFilters({
+                ...filters,
+                _page: Math.ceil(pagination._totalRows / pagination._limit),
+            })
             setSelectedTodo({ ...DEFAULT_TODO });
         } catch (error) {
             console.error('Failed to submit form', error);
@@ -78,9 +79,8 @@ function Todo(props) {
             todo.status = todo.status === 'done' ? 'new' : 'done';
 
             await todoApi.update(todo);
-            const { data, pagination } = await todoApi.getAll(filters);
+            const { data } = await todoApi.getAll(filters);
             setTodos(data)
-            setPagination(pagination)
         } catch (error) {
             console.error('Failed to toggle state', error);
         }
@@ -96,7 +96,10 @@ function Todo(props) {
                 await todoApi.remove(todo.id);
                 const { data, pagination } = await todoApi.getAll(filters);
                 setTodos(data)
-                setPagination(pagination)
+                setFilters({
+                    ...filters,
+                    _page: Math.ceil(pagination._totalRows / pagination._limit),
+                })
             }
         } catch (error) {
             console.error('Failed to delete todo', error);
