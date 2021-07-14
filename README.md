@@ -8,10 +8,9 @@
 - axios (REST APIs)
 - query-string (stringify params)
 - class-names
-- node-sass
+- node-sass: use sass in react
 - react-icons
-- react spinners
-- react-bootstrap/progressBar
+- react spinners: loading page
 
 ### my notes:
 
