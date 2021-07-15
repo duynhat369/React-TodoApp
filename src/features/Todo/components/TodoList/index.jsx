@@ -7,7 +7,7 @@ import {
     AiOutlineRollback
 } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
-import PulseLoader from "react-spinners/PulseLoader";
+import Loading from "../../../../components/Loading";
 import "./styles.scss";
 
 TodoList.propTypes = {
@@ -28,13 +28,7 @@ function TodoList({
     return (
         <div className="todo-list">
             {loading &&
-                <div className="preloader">
-                    <PulseLoader
-                        color={'coral'}
-                        loading={loading}
-                        size={20}
-                    />
-                </div>
+                <Loading loading={loading} />
             }
             {!loading &&
                 <ul className="todo-list__items">

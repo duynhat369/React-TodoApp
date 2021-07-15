@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import PulseLoader from "react-spinners/PulseLoader";
 import "./App.scss";
 import Todo from "./features/Todo";
+import Loading from "./components/Loading"
 
 function App() {
     const [loading, setLoading] = useState(false)
@@ -18,13 +18,7 @@ function App() {
     return (
         <React.Fragment>
             {loading &&
-                <div className="preloader">
-                    <PulseLoader
-                        color={'#ff7f51'}
-                        loading={loading}
-                        size={20}
-                    />
-                </div>
+                <Loading loading={loading} />
             }
             {!loading &&
                 <div className="app">
