@@ -1,7 +1,7 @@
 # APP URL & API URL
 
 - Todo App url: https://react-todo-app-duynhat369.vercel.app/
-- Api url: https://todo-app-api-json-server.herokuapp.com/api/todos
+- Api url: https://todo-api-json-server.vercel.app/api/todos
 
 ## Package using:
 
